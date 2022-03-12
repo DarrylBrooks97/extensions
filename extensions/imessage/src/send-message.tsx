@@ -1,57 +1,10 @@
 import { List } from "@raycast/api";
-import {ContactList} from "../components/ContactList";
-import { runAppleScript } from "run-applescript";
-
-const contacts = [
-  {
-    id: "1",
-    name: "John Doe",
-    avatar:
-      "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-    phoneNumber: "+1 (555) 555-5555",
-  },
-  {
-    id: "2",
-    name: "Darryl Brooks",
-    avatar:
-      "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-    phoneNumber: "+1 (555) 555-5555",
-  },
-  {
-    id: "3",
-    name: "Micheal Jackson",
-    avatar:
-      "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-    phoneNumber: "+1 (555) 555-5555",
-  },
-  {
-    id: "4",
-    name: "Kent Dodds",
-    avatar:
-      "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-    phoneNumber: "+1 (555) 555-5555",
-  },
-];
-const getContacts = async () => {
-  const contacts = await runAppleScript(`
-    tell application "Contacts"
-    set contacts to {}
-      repeat with eachContact in (get every person)
-        set tempList to {}
-        set tempList to first name of eachContact & " " & last name of eachContact
-        set beginning of contacts to tempList
-      end repeat
-      return contacts
-    end tell
-    `);
-
-  return contacts;
-};
+import { ContactList } from "../components/ContactList";
 
 export default function SendMessage(): JSX.Element {
   return (
     <List searchBarPlaceholder="Search for contact">
-      <ContactList contacts={contacts} />
+      <ContactList />
     </List>
   );
 }
