@@ -1,8 +1,6 @@
-import { MessageForm } from "./MessageForm";
-import { runAppleScript } from "run-applescript";
-import {Action, ActionPanel, Color, Icon, List} from "@raycast/api";
-import { useEffect, useState } from "react";
 import { Contact } from "../types";
+import { MessageForm } from "./MessageForm";
+import {Action, ActionPanel, Color, Icon, List} from "@raycast/api";
 
 const contacts = [
   {
@@ -35,46 +33,17 @@ const contacts = [
   },
 ];
 
-const getContacts = async () => {
 
-  const contacts = await runAppleScript(`
-    tell application "Contacts"
-    set contacts to {}
-      repeat with eachContact in (get every person)
-          set tempList to {}
-          try
-            set q to name of eachContact
-            set p to value of phone 1 of eachContact
 
-            set tempList to {name: q, phoneNumber: p}
-            set beginning of contacts to tempList
-          end try
-      end repeat
-      return contacts
-    end tell
-    `);
-
-  return contacts;
-};
-
-export const ContactList = () => {
-  const [contacts, setContacts] = useState<Contact[]>([]);
-
-  useEffect(()=>{
-    const g = async () => {
-      const c = await getContacts();
-      console.log(c);
-    }
-    g();
-  },[contacts]);
-
+export const ContactList = ({contacts}: {contacts: Contact[] | undefined}) => {
     return (
       <>
-        {contacts.map((contact, id) => (
+        {contacts?.map((contact, id) => (
           <List.Item
             key={id}
             title={contact.name}
             icon={contact.avatar}
+            subtitle={contact.phoneNumber}
             actions={
               <ActionPanel>
                 <Action.Push
