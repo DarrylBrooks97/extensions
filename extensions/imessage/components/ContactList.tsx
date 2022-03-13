@@ -2,39 +2,6 @@ import { Contact } from "../types";
 import { MessageForm } from "./MessageForm";
 import {Action, ActionPanel, Color, Icon, List} from "@raycast/api";
 
-const contacts = [
-  {
-    id: "1",
-    name: "John Doe",
-    avatar:
-      "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-    phoneNumber: "+1 (555) 555-5555",
-  },
-  {
-    id: "2",
-    name: "Darryl Brooks",
-    avatar:
-      "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-    phoneNumber: "+1 (555) 555-5555",
-  },
-  {
-    id: "3",
-    name: "Micheal Jackson",
-    avatar:
-      "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-    phoneNumber: "+1 (555) 555-5555",
-  },
-  {
-    id: "4",
-    name: "Kent Dodds",
-    avatar:
-      "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-    phoneNumber: "+1 (555) 555-5555",
-  },
-];
-
-
-
 export const ContactList = ({contacts}: {contacts: Contact[] | undefined}) => {
     return (
       <>
@@ -42,7 +9,7 @@ export const ContactList = ({contacts}: {contacts: Contact[] | undefined}) => {
           <List.Item
             key={id}
             title={contact.name}
-            icon={contact.avatar}
+            icon='https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198?b=1&k=20&m=476085198&s=170667a&w=0&h=Ct4e1kIOdCOrEgvsQg4A1qeuQv944pPFORUQcaGw4oI='
             subtitle={contact.phoneNumber}
             actions={
               <ActionPanel>
