@@ -3,21 +3,21 @@ import { runAppleScript } from 'run-applescript';
 import { useEffect, useState } from 'react';
 
 export function useFetcher<T>(
-  fn: (updateInline: boolean) => Promise<T>,
+  fn: () => Promise<T>,
 ): {
   data: T | undefined;
 }{
   const [data, setData] = useState<T>();
 
-  async function fetchData(updateInline = false){
-    const data = await fn(updateInline);
+  async function fetchData(){
+    const data = await fn();
     setData(data);
   }
-
 
   useEffect(()=>{
     fetchData();
   }, []);
+
   return {
     data,
   }
@@ -31,6 +31,7 @@ export const getContacts = async () => {
       set firstNames to get every person's first name
       set lastNames to get every person's last name
       set phoneNumbers to value of phone 1 of every person
+      --set targetServices to every person 1st account whose service type = iMessage
   
       set {od, my text item delimiters} to {my text item delimiters, return}
   

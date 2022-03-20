@@ -9,17 +9,30 @@ interface MessageValues{
 const sendMessage = async ({values, contact}: {values:MessageValues, contact: Contact}) => {
     
     const status = await runAppleScript(`
-    tell application "Contacts"
+      tell application "Contacts"
 
-    set targetContact1 to value of phone 1 of (person 1 whose name contains \"${contact.name}\")
+      set targetContact to value of phone 1 of (person 1 whose name contains \"${contact.name}\")
 
-    tell application "Messages"
-      set targetContact to targetContact1
-      set newMessage to \"${values.message}\"
-      send newMessage to buddy targetContact
-    end tell
-     return targetContact1
-    end tell
+      tell applications "Messages"
+      try
+        set targetService to 1st account whose service type = iMessage
+        set targetContact to participant targetContact of targetService
+        set newMessage to \"${values.message}\"
+        send newMessage to targetContact
+      on error
+        try
+          set targetService to 1st account whose service type = SMS
+          set targetContact to participant targetContact of targetService
+          set newMessage to \"${values.message}\"
+          send newMessage to targetContact
+
+        on error
+          log("No SMS or iMessage account found")
+        end try
+      end try
+      end tell
+        return "success"
+      end tell
       `);
 
     popToRoot();
