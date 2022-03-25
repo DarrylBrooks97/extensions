@@ -26,23 +26,33 @@ export function useFetcher<T>(
 export const getContacts = async () => {
     const contacts = await runAppleScript(`
     tell application "Contacts"
-    
-    try
-      set firstNames to get every person's first name
-      set lastNames to get every person's last name
-      set phoneNumbers to value of phone 1 of every person
-      --set targetServices to every person 1st account whose service type = iMessage
-  
-      set {od, my text item delimiters} to {my text item delimiters, return}
-  
-      set firstNames to firstNames as text
-      set lastNames to lastNames as text
-      set phoneNumbers to phoneNumbers as text
-  
-      quit
-      return firstNames & "|" & lastNames & "|" & phoneNumbers
-    end try
-  end tell
+      set isContactsRunning to false
+      
+      tell application "System Events"
+        if (exists process "Contacts") then
+          set isContactsRunning to true
+        end if
+      end tell
+      
+      if isContactsRunning is false then
+        activate application "Contacts"
+      end if
+      
+      try
+        set firstNames to get every person's first name
+        set lastNames to get every person's last name
+        set phoneNumbers to value of phone 1 of every person
+        
+        set {od, my text item delimiters} to {my text item delimiters, return}
+        
+        set firstNames to firstNames as text
+        set lastNames to lastNames as text
+        set phoneNumbers to phoneNumbers as text
+        
+        quit
+        return firstNames & "|" & lastNames & "|" & phoneNumbers
+      end try
+    end tell
       `);
 
 
