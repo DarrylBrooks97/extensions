@@ -31,12 +31,9 @@ export const getContacts = async () => {
       tell application "System Events"
         if (exists process "Contacts") then
           set isContactsRunning to true
+          set visible to false
         end if
       end tell
-      
-      if isContactsRunning is false then
-        activate application "Contacts"
-      end if
       
       try
         set firstNames to get every person's first name

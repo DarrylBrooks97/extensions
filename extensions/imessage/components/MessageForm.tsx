@@ -15,23 +15,14 @@ const sendMessage = async ({values, contact}: {values:MessageValues, contact: Co
 
       tell applications "Messages"
       try
-        set targetService to 1st account whose service type = iMessage
+        set targetService to 1st service whose service type = iMessage
         set targetContact to participant targetContact of targetService
         set newMessage to \"${values.message}\"
         send newMessage to targetContact
-      on error
-        try
-          set targetService to 1st account whose service type = SMS
-          set targetContact to participant targetContact of targetService
-          set newMessage to \"${values.message}\"
-          send newMessage to targetContact
-
-        on error
-          log("No SMS or iMessage account found")
-        end try
       end try
       end tell
-        return "success"
+        return "Message Sent"
+      quit
       end tell
       `);
 
@@ -39,7 +30,7 @@ const sendMessage = async ({values, contact}: {values:MessageValues, contact: Co
     showToast({
         title: "Success",
         style: ToastStyle.Success,
-        message: "Message sent",
+        message: status,
     });
     
   };
@@ -47,7 +38,6 @@ const sendMessage = async ({values, contact}: {values:MessageValues, contact: Co
 export const MessageForm = ({contact}:{contact:Contact}): JSX.Element => {
     return (
       <Form
-        onSubmit={sendMessage}
         actions={
           <ActionPanel>
             <SubmitFormAction title="Send Message" onSubmit={(values: MessageValues) => sendMessage({values, contact})} />
